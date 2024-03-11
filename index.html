@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Location Tracker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        #locationInfo {
+            margin: 50px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            width: 300px;
+            background-color: #f9f9f9;
+        }
+        #coordinates {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        #speed {
+            font-size: 16px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div id="locationInfo">
+        <div id="coordinates"></div>
+        <div id="speed"></div>
+    </div>
+
+    <script>
+        function updateLocation(pos) {
+            const { latitude, longitude, speed } = pos.coords;
+            // Convert speed from m/s to km/h
+            const speedKmHr = (speed * 3.6).toFixed(2); // 1 m/s = 3.6 km/hr
+            document.getElementById('coordinates').innerHTML = `Latitude: ${latitude}<br>Longitude: ${longitude}`;
+            document.getElementById('speed').innerHTML = `Speed: ${speedKmHr} km/hr`;
+        }
+
+        function error(err) {
+            console.warn(`ERROR(${err.code}): ${err.message}`);
+        }
+
+        // Start watching the position
+        const watchId = navigator.geolocation.watchPosition(updateLocation, error);
+    </script>
+</body>
+</html>
